@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.seoulit.account.operate.funds.dao.FundDAO">
+
+    <!-- 당일 마지막 계획번호 조회 -->
+    <select id="getPlanMaxNo" parameterType="String" resultType="String" >
+   <![CDATA[
+        SELECT
+            MAX(PLAN_NO)
+        FROM DAILY_FUND_PLAN
+        WHERE PLAN_NO LIKE '%'||#{today}||'%'
+        ]]>
+   </select>
+
+    <!-- 일자별자금계획 조회 -->
+    <select id="getDailyFundPlan" parameterType="map" resultType="kr.co.seoulit.account.operate.funds.to.PlanBean" >
+   <![CDATA[
+        SELECT PLAN_NO
+             , PLAN_DATE
+             , FUND_CODE
+             , FUND_NAME
+             , EXPENSE_REPORT
+             , CUSTOMER_CODE
+             , CUSTOMER_NAME
+             , BALANCE_DIVISION
+             , TO_CHAR(PRICE, 'FM999,999,999,999') AS PRICE
+        FROM DAILY_FUND_PLAN
+        WHERE BALANCE_DIVISION = #{balanceDivision}
+          AND PLAN_DATE BETWEEN #{startDate} AND #{endDate}
+        ]]>
+   </select>
+
+    <!-- 일자별자금계획 수정 -->
+    <update id="updateDailyFundPlan" parameterType="kr.co.seoulit.account.operate.funds.to.PlanBean">
+         <![CDATA[
+            UPDATE DAILY_FUND_PLAN
+                SET PLAN_DATE = #{planDate}
+                  , FUND_CODE = #{fundCode}
+                  , FUND_NAME = #{fundName}
+                  , CUSTOMER_CODE = #{customerCode}
+                  , CUSTOMER_NAME = #{customerName}
+                  , EXPENSE_REPORT = #{expenseReport}
+                  , PRICE = #{price}
+            WHERE PLAN_NO = #{planNo}
+        ]]>
+   </update>
+
+</mapper>
