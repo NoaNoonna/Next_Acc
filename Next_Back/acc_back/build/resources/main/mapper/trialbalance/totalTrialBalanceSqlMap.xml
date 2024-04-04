@@ -69,10 +69,13 @@
 			jdbcType="CURSOR" javaType="java.sql.ResultSet" mode="OUT"
 			resultMap="accountingSettlementStatusResult" />
 	</parameterMap>
+
 	<select id="selectcallEarlyStatements"
 		parameterMap="earlyStatementsParams"
-		resultMap="accountingSettlementStatusResult" statementType="CALLABLE"> <![CDATA[ 
-		{call P_EARLY_STATEMENTS(?, ?, ?, ?, ?)} ]]>
+		resultMap="accountingSettlementStatusResult" statementType="CALLABLE">
+		<![CDATA[
+			{call P_EARLY_STATEMENTS2(?, ?, ?, ?, ?)}
+		]]>
 	</select>
 
 	<select id="selectAccountingSettlement"
@@ -88,17 +91,17 @@
 
 		<![CDATA[
 				SELECT
-					nvl(LEV, 0) AS lev, 
-					CODE AS accountInnerCode, 
-					nvl(DEBITS_SUM, 0) AS debitsSum, 
-					nvl(EXCEPT_CASH_DEBITS, 0) AS exceptCashDebits, 
-					nvl(CASH_DEBITS, 0) AS cashDebits, 
-					LPAD(' ', ( LEV - 1 ) * 4) || NVL(A1.ACCOUNT_NAME, '합계') AS accountName, 
-					nvl(CASH_CREDITS, 0) AS cashCredits, 
-					nvl(EXCEPT_CASH_CREDITS, 0) AS exceptCashCredits, 
+					nvl(LEV, 0) AS lev,
+					CODE AS accountInnerCode,
+					nvl(DEBITS_SUM, 0) AS debitsSum,
+					nvl(EXCEPT_CASH_DEBITS, 0) AS exceptCashDebits,
+					nvl(CASH_DEBITS, 0) AS cashDebits,
+					LPAD(' ', ( LEV - 1 ) * 4) || NVL(A1.ACCOUNT_NAME, '합계') AS accountName,
+					nvl(CASH_CREDITS, 0) AS cashCredits,
+					nvl(EXCEPT_CASH_CREDITS, 0) AS exceptCashCredits,
 					nvl(CREDITS_SUM, 0) AS creditsSum
 				FROM
-					ACCOUNT A1, 
+					ACCOUNT A1,
 					(
 					SELECT
 						CASE
@@ -133,20 +136,20 @@
 								ELSE J1.DEBITS - J2.CASH_DEBITS
 							END AS EXCEPT_CASH_DEBITS,
 						CASE
-								WHEN J1.DEBITS = 0 
+								WHEN J1.DEBITS = 0
 							THEN 0
 								ELSE J2.CASH_DEBITS
 							END AS CASH_DEBITS,
 						CASE
-								WHEN J1.CREDITS = 0 
+								WHEN J1.CREDITS = 0
 							THEN 0
 								ELSE J2.CASH_CREDITS
 							END AS CASH_CREDITS,
 						CASE
-								WHEN J1.CREDITS = 0 
+								WHEN J1.CREDITS = 0
 							THEN 0
 								ELSE J1.CREDITS - J2.CASH_CREDITS
-							END AS EXCEPT_CASH_CREDITS, 
+							END AS EXCEPT_CASH_CREDITS,
 							J1.CREDITS AS CREDITS_SUM
 						FROM
 							ACCOUNT A1,
@@ -199,15 +202,15 @@
 
 
 
-	<!-- <parameterMap id="earlyStatementsParams" type="java.util.HashMap"> 
-		<parameter property="accountPeriodNo" jdbcType="VARCHAR" javaType="String" 
-		mode="IN" /> <parameter property="callResult" jdbcType="VARCHAR" javaType="String" 
-		mode="IN" /> <parameter property="errorCode" jdbcType="DECIMAL" javaType="long" 
-		mode="OUT" /> <parameter property="errorMsg" jdbcType="VARCHAR" javaType="String" 
-		mode="OUT" /> <parameter property="accountingSettlementStatus" jdbcType="CURSOR" 
-		javaType="java.sql.ResultSet" mode="OUT" resultMap="accountingSettlementStatusResult" 
-		/> </parameterMap> <select id="selectcallEarlyStatements" parameterMap="earlyStatementsParams" 
-		resultMap="accountingSettlementStatusResult" statementType="CALLABLE"> <![CDATA[ 
+	<!-- <parameterMap id="earlyStatementsParams" type="java.util.HashMap">
+		<parameter property="accountPeriodNo" jdbcType="VARCHAR" javaType="String"
+		mode="IN" /> <parameter property="callResult" jdbcType="VARCHAR" javaType="String"
+		mode="IN" /> <parameter property="errorCode" jdbcType="DECIMAL" javaType="long"
+		mode="OUT" /> <parameter property="errorMsg" jdbcType="VARCHAR" javaType="String"
+		mode="OUT" /> <parameter property="accountingSettlementStatus" jdbcType="CURSOR"
+		javaType="java.sql.ResultSet" mode="OUT" resultMap="accountingSettlementStatusResult"
+		/> </parameterMap> <select id="selectcallEarlyStatements" parameterMap="earlyStatementsParams"
+		resultMap="accountingSettlementStatusResult" statementType="CALLABLE"> <![CDATA[
 		{call P_TMP_EARLY_STATEMENTS(?)} ]]> </select> -->
 
 
@@ -215,7 +218,7 @@
 		parameterType="java.util.HashMap"
 		resultType="kr.co.seoulit.account.settlement.trialbalance.to.TotalTrialBalanceBean">
 	<![CDATA[
-			SELECT 
+			SELECT
 				LEV,
 				CODE,
 				DEBITS_SUM_BALANCE,
@@ -225,7 +228,7 @@
 				CREDITS_SUM_BALANCE
 			FROM (
 				-- 분류 및 계정 이름 붙여주기
-				SELECT 
+				SELECT
 					LEV,						-- 레벨링
 					CODE,						-- 계정과목 코드
 					DEBITS_SUM_BALANCE,			-- 차변 잔액 합계
@@ -233,7 +236,7 @@
 				--	DECODE(LEV,'1','--') || A1.ACCOUNT_NAME || DECODE(LEV,'1','--')
 				--		AS ACCOUNT_NAME,
 				--	DECODE(CONTRA_ACCOUNT, 'Y','ㄴ') || A1.ACCOUNT_NAME
-				--		AS ACCOUNT_NAME, 		-- 중간에 이름 넣기  
+				--		AS ACCOUNT_NAME, 		-- 중간에 이름 넣기
 					CASE WHEN LEV = '1' THEN '<' || A1.ACCOUNT_NAME || '>'
 						WHEN LEV='2' THEN '-' || A1.ACCOUNT_NAME || '-'
 						WHEN LEV='3' AND  CONTRA_ACCOUNT='Y' THEN 'ㄴ' || A1.ACCOUNT_NAME
@@ -242,17 +245,17 @@
 					CREDITS_SUM,				-- 대변 합계
 					CREDITS_SUM_BALANCE			-- 대변 잔액 합계
 				FROM ACCOUNT A1,
-					(	
+					(
 					-- 중분류, 대분류별로 차,대변 합계, 차/대변 잔액 합계를 롤업으로 계산 해준다.
-					SELECT 
+					SELECT
 						CASE WHEN ACCOUNT_CODE IS NOT NULL THEN 3
 							WHEN DETAIL_APPEND_CODE IS NOT NULL THEN 2
 							WHEN APPEND_CODE IS NOT NULL THEN 1
-						END AS LEV, 											-- 레벨링 작업을 해준다. 
+						END AS LEV, 											-- 레벨링 작업을 해준다.
 						CASE WHEN ACCOUNT_CODE IS NOT NULL THEN ACCOUNT_CODE
 							WHEN DETAIL_APPEND_CODE IS NOT NULL THEN DETAIL_APPEND_CODE
 							WHEN APPEND_CODE IS NOT NULL THEN APPEND_CODE
-						END AS CODE, 											-- 조인코드로, 값이 있는 것부터 코드를 지정, 레벨별로 계정코드 할당	
+						END AS CODE, 											-- 조인코드로, 값이 있는 것부터 코드를 지정, 레벨별로 계정코드 할당
 						APPEND_CODE,											-- 참조코드
 						DETAIL_APPEND_CODE,										-- 상세참조코드
 						ACCOUNT_CODE,											-- 계정코드
@@ -266,7 +269,7 @@
 							AND MAX(ACCOUNT_CHARACTER) LIKE '%차감%' THEN 'Y' ELSE 'N'
 						END AS CONTRA_ACCOUNT									-- 차감 금액 확인
 					FROM(
-						SELECT 
+						SELECT
 							APPEND_CODE,					-- 참조코드
 							DETAIL_APPEND_CODE,				-- 상세참조코드
 							ACCOUNT_CODE,					-- 계정코드
@@ -290,13 +293,13 @@
 								ACCOUNT A2,
 								ACCOUNT A3
 							WHERE S.ACCOUNT_PERIOD_NO = '${accountPeriodNo}'
-								AND J.SLIP_NO = S.SLIP_NO 
-								AND S.SLIP_STATUS = '승인완료' -- 승인완료 인것만 계산 
-								AND J.ACCOUNT_INNER_CODE = A3.ACCOUNT_INNER_CODE--분개에 적힌 계정과목을 불러온다. 
+								AND J.SLIP_NO = S.SLIP_NO
+								AND S.SLIP_STATUS = '승인완료' -- 승인완료 인것만 계산
+								AND J.ACCOUNT_INNER_CODE = A3.ACCOUNT_INNER_CODE--분개에 적힌 계정과목을 불러온다.
 								AND A3.PARENT_ACCOUNT_INNER_CODE= A2.ACCOUNT_INNER_CODE (+) -- 상세코드와 상세분류 매칭
 								AND A2.PARENT_ACCOUNT_INNER_CODE = A1.ACCOUNT_INNER_CODE (+) -- 상세분류와 중간분류 매칭
 						)
-						--롤업해주기 전 분류 
+						--롤업해주기 전 분류
 					)
 					GROUP BY ROLLUP(APPEND_CODE, DETAIL_APPEND_CODE, ACCOUNT_CODE)
 				) A2
@@ -304,7 +307,7 @@
 				AND LEV IS NOT NULL
 			)
 			WHERE DEBITS_SUM > 0 OR CREDITS_SUM>0
-				
+
 			ORDER BY
 				SUBSTR(CODE, 1, 4),SUBSTR(CODE, 6) DESC NULLS LAST
 	 ]]>
@@ -312,4 +315,3 @@
 
 
 </mapper>
-		 

@@ -48,7 +48,7 @@ public class SlipBean extends BaseBean {
     @Transient
     private String deptName;
     @Transient
-    private ArrayList<JournalBean> journalBeans;
+    private ArrayList<JournalBean> journalBean;
 //    @Transient
 //    private ArrayList<JournalDeadlineDivsionBean> journalDeadline;
     @Transient

@@ -2,6 +2,8 @@ package kr.co.seoulit.account.operate.funds.service;
 
 import kr.co.seoulit.account.operate.funds.dao.FundDAO;
 import kr.co.seoulit.account.operate.funds.repository.FundRepository;
+import kr.co.seoulit.account.operate.funds.to.GeneralFundBean;
+import kr.co.seoulit.account.operate.funds.to.InoutBean;
 import kr.co.seoulit.account.operate.funds.to.PlanBean;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,8 +75,71 @@ public class FundServiceImpl implements FundService {
         fundDAO.updateDailyFundPlan(planBean);
     }
 
+    //일자별 자금계획 삭제
     @Override
     public void deleteDailyFundPlan(String planNo){
         fundRepository.deleteById(planNo);
+    }
+
+    //일일거래증감현황 조회
+    @Override
+    public HashMap<String, Object> getDailyTradeStatus(String selectDate){
+        HashMap<String, Object> param = new HashMap<>();
+
+        param.put("selectDate", selectDate);
+        fundDAO.getDailyTradeStatus(param);
+
+        return param;
+    }
+
+    //입출금예정액 조회
+    @Override
+    public HashMap<String, ArrayList<InoutBean>>
+    getInoutExpectedPrice(String selectDate){
+        HashMap<String, ArrayList<InoutBean>> param = new HashMap<>();
+
+        HashMap<String, String> leftData = new HashMap<>();
+        leftData.put("selectDate", selectDate);
+        leftData.put("balanceDivision", "차변");
+        HashMap<String, String> rightData = new HashMap<>();
+        rightData.put("selectDate", selectDate);
+        rightData.put("balanceDivision", "대변");
+
+        ArrayList<InoutBean> inExpectedPriceList = fundDAO.getInoutExpectedPrice(leftData);
+        ArrayList<InoutBean> outExpectedPriceList = fundDAO.getInoutExpectedPrice(rightData);
+
+        param.put("inExpectedPriceList", inExpectedPriceList);
+        param.put("outExpectedPriceList", outExpectedPriceList);
+
+        return param;
+    }
+
+    //예적금현황 조회
+    @Override
+    public HashMap<String, Object> getFinanceStatus(String selectDate, String selectAccount){
+        HashMap<String, Object> param = new HashMap<>();
+
+        param.put("selectDate",selectDate);
+        param.put("selectAccount", selectAccount);
+
+        fundDAO.getFinanceStatus(param);
+
+        return param;
+    }
+
+    //총괄거래현황 조회
+    @Override
+    public HashMap<String, Object> getGeneralFundStatus(String startDate, String endDate){
+        HashMap<String, Object> param = new HashMap<>();
+
+        HashMap<String, String> selectDate = new HashMap<>();
+        selectDate.put("startDate", startDate);
+        selectDate.put("endDate", endDate);
+
+        ArrayList<GeneralFundBean> generalFundStatusList = fundDAO.getGeneralFundStatus(selectDate);
+
+        param.put("generalFundStatusList", generalFundStatusList);
+
+        return param;
     }
 }

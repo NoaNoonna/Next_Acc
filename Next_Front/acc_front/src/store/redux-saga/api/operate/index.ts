@@ -14,6 +14,11 @@ const CUSTOMER_CODE_URL = '/operate/customers';
 const PLAN_URL = '/funds/dailyFundPlan';
 const SELECT_ALL_NOTE_URL='/funds/bills';
 
+const DAILY_TRADE_URL = '/funds/dailyTradeStatus';
+const INOUT_EXPECTED_URL = '/funds/inoutExpectedPrice';
+const FINANCE_URL = '/funds/financeStatus';
+const GENERAL_FUND_URL = '/funds/generalFundStatus'
+
 //자산유형 조회
 export const getAssetList = async() => {
   try{
@@ -26,7 +31,6 @@ export const getAssetList = async() => {
 
 //고정자산목록 조회
 export const getFixedAssetList = async(params:any) => {
-  console.log("params???", params);
   try{
     return await operateApi.get(FIXED_ASSET_LIST_URL, {
       params:{
@@ -41,7 +45,6 @@ export const getFixedAssetList = async(params:any) => {
 
 //고정자산 추가
 export const insertFixedAsset = async(body:any) => {
-  console.log("body???", body);
   try{
     return await operateApi.post(ADD_FIXED_ASSET_URL, body);
   
@@ -62,7 +65,6 @@ export const getDepreciationList = async() => {
 
 //감가상각현황 조건조회
 export const getSelectedDepList = async(params:any) => {
-  console.log("params?", params);
   try{
     return await operateApi.get(SELECTED_DEPLIST_URL, {
       params:{
@@ -96,7 +98,6 @@ export const getAccountCodeList = async() => {
 
 //계정코드 조건조회
 export const getSelectedAccCode = async(params:any) => {
- console.log("params??", params);
   try{
     return await operateApi.get(`${SELECTED_ACCCODE_URL}/${params.accountId}`, {
       params:{
@@ -121,7 +122,6 @@ export const getCustomerCodeList = async() => {
 
 //일자별자금계획 추가
 export const insertFundPlan = async(body:any) => {
-  console.log("body???", body);
   try{
     return await operateApi.post(PLAN_URL, body);
   
@@ -132,7 +132,6 @@ export const insertFundPlan = async(body:any) => {
 
 //일자별자금계획 조회
 export const getFundPlan = async(params:any) => {
-  console.log("params??", params);
    try{
      return await operateApi.get(PLAN_URL, {
        params:{
@@ -158,7 +157,6 @@ export const updateFundPlan = async(body:any) => {
 
  //일자별자금 계획 삭제
  export const deleteFundPlan = async(params:any) => {
-  console.log("계획 삭제???", params);
   try{
     return await operateApi.delete(PLAN_URL, {
       params:{
@@ -173,11 +171,67 @@ export const updateFundPlan = async(body:any) => {
 
 //어음명세서 조회
 export const getAllNote = async(params:any) => {
-  console.log("params??", params);
    try{
      return await operateApi.get(SELECT_ALL_NOTE_URL, {
        params:{
          accountCode: params.accCode
+     }});
+   }
+   catch(error:any){
+     console.log(error);
+   }
+ };
+
+ //일일거래증감현황 조회
+export const getDailyTradeStatus = async(params:any) => {
+  console.log("params??", params);
+   try{
+     return await operateApi.get(DAILY_TRADE_URL, {
+       params:{
+         date: params
+     }});
+   }
+   catch(error:any){
+     console.log(error);
+   }
+ };
+
+//입출금예정액 조회
+export const getExpectedPrice = async(params:any) => {
+   try{
+     return await operateApi.get(INOUT_EXPECTED_URL, {
+       params:{
+         date: params
+     }});
+   }
+   catch(error:any){
+     console.log(error);
+   }
+ };
+
+//예적금현황 조회
+export const getFinanceStatus = async(params:any) => {
+  console.log("params??", params);
+   try{
+     return await operateApi.get(FINANCE_URL, {
+       params:{
+         date: params.date,
+         accountName: params.accountName
+     }});
+   }
+   catch(error:any){
+     console.log(error);
+   }
+ };
+
+ //총괄거래현황 조회
+export const getGeneralFundStatus = async(params:any) => {
+  console.log("params??", params);
+   try{
+     return await operateApi.get(GENERAL_FUND_URL, {
+       params:{
+        startDate: params.startDate,
+        endDate: params.endDate,
      }});
    }
    catch(error:any){

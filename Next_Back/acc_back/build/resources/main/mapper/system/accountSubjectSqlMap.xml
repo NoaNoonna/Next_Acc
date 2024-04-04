@@ -33,6 +33,69 @@
 
 	</resultMap>
 
+	<resultMap id="selectAccountResult" type="kr.co.seoulit.account.operate.system.to.AccountCodeBean">
+		<result property="accountInnerCode" column="ACCOUNT_INNER_CODE" />
+		<result property="parentAccountInnerCode" column="PARENT_ACCOUNT_INNER_CODE" />
+		<result property="accountCode" column="PARENT_ACCOUNT_INNER_CODE" />
+		<result property="accountCharacter" column="ACCOUNT_CHARACTER" />
+		<result property="accountName" column="ACCOUNT_NAME" />
+		<result property="accountDisPlayNameWithCode" column="ACCOUNT_DISPLAY_NAME_WITH_CODE" />
+		<result property="accountDisplayName" column="ACCOUNT_DISPLAY_NAME" />
+		<result property="accountDivision" column="ACCOUNT_DIVISION" />
+		<result property="accountUseCheck" column="ACCOUNT_USE_CHECK" />
+		<result property="accountDescription" column="ACCOUNT_DESCRIPTION" />
+		<result property="accountLevel" column="ACCOUNT_LEVEL" />
+		<result property="leaf" column="LEAF" />
+		<result property="target" column="TARGET" />
+	</resultMap>
+
+		<!--계정과목 전체조회-->
+	<select id="getAccountCodeList" resultMap="selectAccountResult">
+		<![CDATA[
+			SELECT
+				 LEVEL-1 AS ACCOUNT_LEVEL
+				,CONNECT_BY_ISLEAF AS LEAF
+				, ACCOUNT_INNER_CODE
+				, PARENT_ACCOUNT_INNER_CODE
+				, ACCOUNT_CODE
+				, ACCOUNT_CHARACTER
+				, ACCOUNT_NAME
+				, ACCOUNT_DISPLAY_NAME_WITH_CODE
+				, ACCOUNT_DISPLAY_NAME
+				, ACCOUNT_DIVISION
+				, ACCOUNT_USE_CHECK
+				, ACCOUNT_DESCRIPTION
+				, TARGET
+			FROM ACCOUNT
+			START WITH PARENT_ACCOUNT_INNER_CODE IS NULL
+			CONNECT BY PRIOR ACCOUNT_INNER_CODE = PARENT_ACCOUNT_INNER_CODE
+		]]>
+	</select>
+
+	<!--계정과목 조건조회-->
+	<select id="getAccount"  parameterType="map" resultMap="accountResult">
+		 SELECT
+		 ACCOUNT_INNER_CODE,
+		 PARENT_ACCOUNT_INNER_CODE,
+		 ACCOUNT_CODE,
+		 ACCOUNT_CHARACTER,
+		 ACCOUNT_NAME,
+		 ACCOUNT_DIVISION,
+		 ACCOUNT_USE_CHECK,
+		 ACCOUNT_DESCRIPTION,
+		 EDITABLE
+		 from ACCOUNT
+		 WHERE PARENT_ACCOUNT_INNER_CODE IS not NULL
+
+		 <if test="accountName != 'undefined'" >
+		 AND ACCOUNT_NAME LIKE '%' || #{accountName} || '%'
+		 </if>
+
+		 <if test="accountCode != 'undefined'" >
+		 AND ACCOUNT_CODE LIKE '%' || #{accountCode} || '%'
+		 </if>
+  	</select>
+
 
 	<select id="selectCurrentAssetList" resultMap="accountResult">
   	<![CDATA[
@@ -97,11 +160,11 @@
 		<![CDATA[
 			SELECT DISTINCT A.ACCOUNT_INNER_CODE, A.ACCOUNT_NAME
 			FROM ACCOUNT A, JOURNAL J, SLIP S
-			WHERE S.SLIP_NO =J.SLIP_NO  
+			WHERE S.SLIP_NO =J.SLIP_NO
 			AND S.REPORTING_DATE BETWEEN #{fromDate} AND #{toDate}
 			AND A.PARENT_ACCOUNT_INNER_CODE=#{parentAccountCode}
 			AND J.ACCOUNT_INNER_CODE = A.ACCOUNT_INNER_CODE
-			AND S.SLIP_STATUS = '승인완료' 
+			AND S.SLIP_STATUS = '승인완료'
 			ORDER BY ACCOUNT_INNER_CODE
 		]]>
 
@@ -129,7 +192,7 @@
 		resultType="kr.co.seoulit.account.operate.system.to.AccountBean">
 		<![CDATA[
 			UPDATE ACCOUNT SET
-					   ACCOUNT_NAME= #accountName#	
+					   ACCOUNT_NAME= #accountName#
 			     WHERE ACCOUNT_INNER_CODE = #{accountInnerCode}
 		]]>
 	</select>
@@ -145,7 +208,7 @@
 				ACCOUNT_USE_CHECK         as accountUseCheck,
 				ACCOUNT_DESCRIPTION       as accountDescription,
 				EDITABLE                  as editform
-				
+
 			FROM ACCOUNT
 			WHERE ACCOUNT_NAME LIKE  '%'|| #{accountName} || '%'
 			AND ACCOUNT_CODE NOT LIKE '%-%'
@@ -162,9 +225,9 @@
 	        		    , D.ACCOUNT_CONTROL_TYPE    as accountControlType
 	        		    , D.DESCRIPTION AS accountControlDescription
 	        		FROM  ACCOUNT_CONTROL_CODE C
-	        		    , ACCOUNT_CONTROL_DETAIL D 
+	        		    , ACCOUNT_CONTROL_DETAIL D
 	        		WHERE C.ACCOUNT_CODE = #{accountCode}
-	        		AND   C.ACCOUNT_CONTROL_CODE = D.ACCOUNT_CONTROL_CODE	  
+	        		AND   C.ACCOUNT_CONTROL_CODE = D.ACCOUNT_CONTROL_CODE
 		]]>
 	</select>
 
@@ -183,8 +246,8 @@
 					 WHERE ACCOUNT_INNER_CODE LIKE '%-%'
 	        		  AND ACCOUNT_INNER_CODE not IN ('0101-0175','0176-0250')
 	        		  AND PARENT_ACCOUNT_INNER_CODE IS not NULL
-	        		  and account_inner_code in (SELECT distinct parent_account_inner_code from ACCOUNT 
-	        	     WHERE ACCOUNT_INNER_CODE not LIKE '%-%'	  
+	        		  and account_inner_code in (SELECT distinct parent_account_inner_code from ACCOUNT
+	        	     WHERE ACCOUNT_INNER_CODE not LIKE '%-%'
 	        	     and budget='T')
 	        	     ORDER BY ACCOUNT_INNER_CODE
 		]]>
@@ -193,7 +256,7 @@
 	<select id="selectDetailBudgetList" parameterType="String"
 		resultType="kr.co.seoulit.account.operate.system.to.AccountBean">
 		<![CDATA[
-			SELECT 
+			SELECT
 			        ACCOUNT_INNER_CODE        as accountInnerCode,
 					PARENT_ACCOUNT_INNER_CODE as parentAccountInnerCode,
 					ACCOUNT_CODE              as accountCode,
@@ -213,13 +276,13 @@
 	<select id="selectAccountPeriodList" parameterType="String"
 		resultType="kr.co.seoulit.account.operate.system.to.PeriodBean">
 		<![CDATA[
-			SELECT 
+			SELECT
 					  SUBSTR(PERIOD_START_DATE,1,4)              as fiscalYear
 					, ACCOUNT_PERIOD_NO                          as accountPeriodNo
 					, WORKPLACE_CODE                             as workplaceCode
 					, PERIOD_START_DATE                          as periodStartDate
 					, PERIOD_END_DATE                            as periodEndDate
-				FROM  PERIOD   
+				FROM  PERIOD
 		]]>
 	</select>
 

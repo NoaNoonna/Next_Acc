@@ -4,12 +4,6 @@ let initialState = {
     fixedAssetCode:[],
     fixedAssetList:[],
     data:[],
-    accountCode: '',
-    accountName: '',
-    assetCode:'',
-    assetName: '',
-    acqDate:'',
-    compStatus: '',
     fixedAssetDetailBean:[],
     depreciationList:[],
     selectedDepList:[],
@@ -17,11 +11,14 @@ let initialState = {
     accountCodeList:[],
     selectedAccCode:[],
     customerCodeList:[],
-    planNo:'',
     expectedPlanList:[],
     updatedPlanList:[],
     deletedPlanList:[],
     noteList:[],
+    dailyTradeList:[],
+    expectedPriceList:[],
+    financeStatusList:[],
+    generalFundList:[],
 };
 
 const operateSlice = createSlice({
@@ -151,6 +148,46 @@ const operateSlice = createSlice({
             state.noteList = action.payload;
         },
         SearchAllNoteFailure(state){
+            console.warn('error');
+        },
+        SelectTradeStatusRequest(state){
+            console.warn('일일거래증감현황 조회 요청중');
+        },
+        SelectTradeStatusSuccess(state, action){
+            console.warn('state 업데이트', action.payload);
+            state.dailyTradeList = action.payload;
+        },
+        SelectTradeStatusFailure(state){
+            console.warn('error');
+        },
+        SelectInoutPriceRequest(state){
+            console.warn('입출금예정액 조회 요청중');
+        },
+        SelectInoutPriceSuccess(state, action){
+            console.warn('state 업데이트', action.payload);
+            state.expectedPriceList = action.payload;
+        },
+        SelectInoutPriceFailure(state){
+            console.warn('error');
+        },
+        SelectFinanceStatusRequest(state){
+            console.warn('예적금현황 조회 요청중');
+        },
+        SelectFinanceStatusSuccess(state, action){
+            console.warn('state 업데이트', action.payload);
+            state.financeStatusList = action.payload;
+        },
+        SelectFinanceStatusFailure(state){
+            console.warn('error');
+        },
+        SelectGeneralFundRequest(state){
+            console.warn('총괄거래현황 조회 요청중');
+        },
+        SelectGeneralFundSuccess(state, action){
+            console.warn('state 업데이트', action.payload);
+            state.generalFundList = action.payload;
+        },
+        SelectGeneralFundFailure(state){
             console.warn('error');
         },
     }

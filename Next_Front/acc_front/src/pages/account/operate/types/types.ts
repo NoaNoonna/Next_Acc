@@ -8,7 +8,7 @@ export type FixedAssetType = {
     compStatus: string;
   };
 
-  //고정자산 상세
+//고정자산 상세
 export type FixedAssetDetailType = {
     assetCode: string;
     acqCost: string;

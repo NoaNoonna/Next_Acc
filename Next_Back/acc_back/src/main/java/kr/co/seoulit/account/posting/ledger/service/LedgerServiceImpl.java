@@ -155,7 +155,7 @@ public class LedgerServiceImpl implements LedgerService {
 
 	}
 
-		//고정자산 목록
+	//고정자산 목록
 	public ArrayList<FixedAssetBean> findFixedAssetList(String accountCode , String accountName){
 
 		ArrayList<FixedAssetBean> findFixedAssetList = fixedAssetMapper.selectFixedAssetList(accountCode , accountName);

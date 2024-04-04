@@ -252,7 +252,7 @@ const account: NavItemType = {
           id: 'dailyFundJournalFormPage',
           title: <FormattedMessage id="dailyFundJournalFormPage" />,
           type: 'item',
-          url: ''
+          url: '/account/operate/funds/dailyFundJournalStatus/FundJournalTab'
         }
       ]
     },

@@ -18,8 +18,6 @@ public interface LedgerService {
 
     ArrayList<JournalDetailBean> findJournalDetailList(String journalNo);
 
-    ArrayList<AssetBean> findAssetList();
-
     ArrayList<AssetItemBean> findAssetItemList(String parentsCode);
 
     ArrayList<DeptBean> findDeptList();
