@@ -21,6 +21,7 @@ import budgetStatusReducer from './slices/budget/budgetStatus';
 import slipReducer from './slices/slip';
 import baseReducer from './slices/base';
 import postingReducer from './slices/posting';
+import operateReducer from './redux-saga/reducer/operate/operateReducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -48,7 +49,8 @@ const reducer = combineReducers({
   budgetStatus: budgetStatusReducer,
   slip: slipReducer,
   base: baseReducer,
-  posting: postingReducer
+  posting: postingReducer,
+  operate: operateReducer,
 });
 
 export default reducer;
