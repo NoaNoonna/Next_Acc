@@ -27,50 +27,32 @@ import { ReactElement } from 'react-markdown/lib/react-markdown';
 //Columns
 //전표칼럼
 const slipColumns = [
-  { width: '90', headerName: '기수일련번호', field: 'accountPeriodNo', key: 'accountPeriodNo', align: 'center' },
-  { width: '180', headerName: '전표일련번호', field: 'slipNo', key: 'slipNo' },
-  { headerName: '작성날짜', field: 'reportingDate', key: 'reportingDate', type: 'date' },
-  { headerName: '작성자코드', field: 'reportingEmpCode', key: 'reportingEmpCode' },
-  {
-    width: '200',
-    headerName: '품의내역',
-    field: 'expenseReport',
-    key: 'expenseReport'
-  }, // editable : 편집가능
-  { headerName: '승인자', field: 'approvalEmpCode', key: 'approvalEmpCode' },
-  { headerName: '승인상태', field: 'slipStatus', key: 'slipStatus' }
+  { width: '120', headerName: '기수일련번호', field: 'accountPeriodNo', align: 'center', headerAlign: 'center' },
+  { width: '200', headerName: '전표일련번호', field: 'slipNo', align: 'center', headerAlign: 'center'},
+  { width: '180', headerName: '작성날짜', field: 'reportingDate', type: 'date', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '작성자코드', field: 'reportingEmpCode', align: 'center', headerAlign: 'center' },
+  { width: '200', headerName: '품의내역', field: 'expenseReport', align: 'center', headerAlign: 'center' }, // editable : 편집가능
+  { width: '180', headerName: '승인자', field: 'approvalEmpCode', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '승인상태', field: 'slipStatus', align: 'center', headerAlign: 'center' }
 ];
 //분개칼럼
 const indignationColumns = [
-  { width: '250', headerName: '분개일련번호', field: 'journalNo' },
-  { headerName: '계정코드', field: 'accountCode' },
-  { headerName: '계정명', field: 'accountName' },
-  { headerName: '거래처코드', field: 'customerCode' },
-  { headerName: '거래처명', field: 'customerName', hide: true },
-  {
-    headerName: '대차구분',
-    field: 'balanceDivision'
-  },
-  {
-    headerName: '차변',
-    field: 'leftDebtorPrice'
-  },
-  {
-    headerName: '대변',
-    field: 'rightCreditsPrice'
-  }
+  { width: '250', headerName: '분개일련번호', field: 'journalNo', align: 'center', headerAlign: 'center' },
+  { width: '150', headerName: '계정코드', field: 'accountCode', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '계정명', field: 'accountName', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '거래처코드', field: 'customerCode', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '거래처명', field: 'customerName', hide: true, align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '대차구분', field: 'balanceDivision', align: 'center', headerAlign: 'center'},
+  { width: '180', headerName: '차변', field: 'leftDebtorPrice', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '대변', field: 'rightCreditsPrice', align: 'center', headerAlign: 'center' }
 ];
 
 //분개상세칼럼
 const indignationDetailColumns = [
-  { headerName: '분개번호', field: 'journalDetailNo', width: 250 },
-  { headerName: '계정관리명', field: 'accountControlName', width: 150 },
-  { headerName: '계정관리타입', field: 'accountControlType', width: 150 },
-  {
-    headerName: '상세내용',
-    field: 'journalDescription',
-    width: 250
-  },
+  { headerName: '분개번호', field: 'journalDetailNo', width: 250, align: 'center', headerAlign: 'center' },
+  { headerName: '계정관리명', field: 'accountControlName', width: 180, align: 'center', headerAlign: 'center' },
+  { headerName: '계정관리타입', field: 'accountControlType', width: 180, align: 'center', headerAlign: 'center' },
+  { headerName: '상세내용', field: 'journalDescription', width: 250, align: 'center', headerAlign: 'center' },
   { headerName: '계정코드상세', field: 'accountControlCode', hide: true }
 ];
 
@@ -80,6 +62,9 @@ const ApprovalManager = () => {
   const slipData = useSelector((state: any) => state.posting.approvalSlipList);
   const journalData = useSelector((state: any) => state.posting.approvalJournalList);
   const journalDetailData = useSelector((state: any) => state.posting.journalDetailList);
+  console.log("slipData???",slipData );
+  console.log("journalData???",journalData );
+  console.log("journalData???",journalData );
 
   let year = moment(new Date()).format('yyyy');
   let month = moment(new Date()).format('MM');
@@ -91,7 +76,7 @@ const ApprovalManager = () => {
 
   const theme = useTheme();
   const dispatch = useDispatch(); // useDispatch()는 리덕스 내장 함순데 밖에서 사용하기 위해서 dispatch변수 적어준다.
-  const [slipStatus, setSlipStatus] = useState('승인요청');
+  const [slipStatus, setSlipStatus] = useState('승인');
   const [startDate, setStartDate] = useState(monthFirstDay); //시작 날짜
   const [endDate, setEndDate] = useState(toDay);
   const [selecSlip, setSelecSlip] = useState('');
@@ -111,7 +96,7 @@ const ApprovalManager = () => {
         showConfirmButton: true // 확인 버튼 표시 여부
       });
     } else if (e.target.innerText === '전표승인') {
-      const approvalReturnData = { slipNo: selecSlip.slipNo, slipStatus: '승인완료', approvalDate: toDay, approvalEmpCode: 'admin' };
+      const approvalReturnData = { slipNo: selecSlip.slipNo, slipStatus: '승인', approvalDate: toDay, approvalEmpCode: 'EMP-20' };
       dispatch(types.updateAmSlipStart(approvalReturnData));
       return Swal.fire({
         icon: 'success',
@@ -187,8 +172,11 @@ const ApprovalManager = () => {
                   setSlipStatus(e.target.value);
                 }}
               >
-                <MenuItem value="승인요청">요청</MenuItem>
-                <MenuItem value="승인완료">완료</MenuItem>
+                {/* <MenuItem value="승인요청">요청</MenuItem>
+                <MenuItem value="승인완료">완료</MenuItem> */}
+                <MenuItem value="미결">미결</MenuItem>
+                <MenuItem value="승인">승인</MenuItem>
+                <MenuItem value="반려">반려</MenuItem>
               </Select>
             </FormControl>
             <Button

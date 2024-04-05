@@ -130,7 +130,7 @@ public class BusinessServiceImpl implements BusinessService {
 		slipNo.append(code.substring(code.length() - 5)); // 00001 10이상 넘어가는숫자들 처리
 
 		slipBean.setSlipNo(slipNo.toString()); // 20200118SLIP00001
-		
+
 		slipDAO.insertSlip(slipBean);
 		for (JournalBean journalBean : slipBean.getJournalBean()) {
 			String journalNo = journalDAO.selectJournalName(slipBean.getSlipNo());
@@ -142,7 +142,7 @@ public class BusinessServiceImpl implements BusinessService {
 			} else if (journalBean.getRightCreditsPrice() == "") {
 				journalBean.setRightCreditsPrice("0");
 			}
-			
+
 			journalDAO.insertJournal(journalBean);
 
 			if (journalBean.getJournalDetailList() != null) {
@@ -199,6 +199,7 @@ public class BusinessServiceImpl implements BusinessService {
 
 	}
 
+	//전표 조회
 	@Override
 	public ArrayList<SlipBean> findRangedSlipList(HashMap<String, Object> map) {
 
@@ -276,7 +277,7 @@ public class BusinessServiceImpl implements BusinessService {
 		System.out.println("AppServiceImp_approvalSlipRequest 시작");
 		slipDAO.updateSlipApproval(slipBean);
 
-	} 
+	}
 
 	@Override
 	public ArrayList<JournalBean> findApprovalJournalList(String slipNo) {

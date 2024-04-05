@@ -24,6 +24,7 @@ const CustomerDialog = ({ open, onClose, setCustomerCode, setCustomerName }) => 
   const theme = useTheme();
 
   const customerData = useSelector((state: any) => state.base.accountCustomerList);
+  console.log("customerData???", customerData);
 
   useEffect(() => {
     dispatch({

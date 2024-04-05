@@ -16,7 +16,8 @@ import kr.co.seoulit.account.settlement.trialbalance.to.DetailTrialBalanceBean;
 public class DetailTrialBalanceController {
 	@Autowired
     private TrialBalanceService trialBalanceService;
-    
+
+    //일(월)계표
 	@GetMapping("/detailtrialbalance")
     public HashMap<String, Object> handleRequestInternal(@RequestParam("fromDate") String fromDate,
                                                          @RequestParam("toDate") String toDate) {
@@ -24,7 +25,7 @@ public class DetailTrialBalanceController {
          HashMap<String , Object> map =new HashMap<>();
         ArrayList<DetailTrialBalanceBean> detailTrialBalanceList = trialBalanceService.findDetailTrialBalance(fromDate, toDate);
         map.put("detailTrialBalanceList" ,detailTrialBalanceList);
-       
+
         return map;
     }
 

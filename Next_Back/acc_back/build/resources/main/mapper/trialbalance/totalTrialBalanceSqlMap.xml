@@ -168,7 +168,7 @@
 							WHERE
 								J.SLIP_NO = S.SLIP_NO
 								AND J.ACCOUNT_INNER_CODE = A.ACCOUNT_INNER_CODE
-								AND S.SLIP_STATUS = '승인완료'
+								AND S.SLIP_STATUS = '승인'
 								AND S.REPORTING_DATE BETWEEN '${fromDate}' AND '${toDate}'
 							) J1,
 							(

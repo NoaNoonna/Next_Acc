@@ -32,7 +32,9 @@ export type SlipColumnType = {
   key?: string;
   align?: 'right' | 'left' | 'inherit' | 'center' | 'justify' | undefined;
   hide?: boolean;
+  headerAlign?: 'center';
 };
+
 export type GeneralColumnType = {
   headerName: string;
   field: string;

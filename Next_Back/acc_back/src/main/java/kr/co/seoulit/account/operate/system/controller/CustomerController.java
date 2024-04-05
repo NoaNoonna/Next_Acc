@@ -46,7 +46,7 @@ public class CustomerController {
 		HashMap<String , Object> map = new HashMap<>();
 
 		map.put("accountCustomerList" , systemService.getCustomerList());
-
+		System.out.println("map = " + map);
 		return map;
 	}
 

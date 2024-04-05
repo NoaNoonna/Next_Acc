@@ -62,12 +62,6 @@ const account: NavItemType = {
           url: '/account/statement/detailtrialbalance/DetailTrialBalance'
         },
         {
-          id: 'generalAccountLedgerPage',
-          title: <FormattedMessage id="generalAccountLedgerPage" />,
-          type: 'item',
-          url: '/account/posting/generalaccountledger/GeneralAccountLedger'
-        },
-        {
           id: 'cashJournalPage',
           title: <FormattedMessage id="cashJournalPage" />,
           type: 'item',
@@ -137,30 +131,6 @@ const account: NavItemType = {
           type: 'item',
           url: '/account/statement/accounting/Accounting'
         },
-        {
-          id: 'costStatementPage',
-          title: <FormattedMessage id="costStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'retainedEarningsStatementPage',
-          title: <FormattedMessage id="retainedEarningsStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'monthCostStatementPage',
-          title: <FormattedMessage id="monthCostStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'cashFlowStatementPage',
-          title: <FormattedMessage id="cashFlowStatementPage" />,
-          type: 'item',
-          url: ''
-        }
       ]
     },
     {
@@ -231,12 +201,6 @@ const account: NavItemType = {
           url: '/account/operate/funds/dailyFundPlanInput/FundPlanInputTab'
         },
         {
-          id: 'fundPlanningCalendarFormPage',
-          title: <FormattedMessage id="fundPlanningCalendarFormPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
           id: 'noteReceivableSpecificationFormPage',
           title: <FormattedMessage id="noteReceivableSpecificationFormPage" />,
           type: 'item',
@@ -253,27 +217,6 @@ const account: NavItemType = {
           title: <FormattedMessage id="dailyFundJournalFormPage" />,
           type: 'item',
           url: '/account/operate/funds/dailyFundJournalStatus/FundJournalTab'
-        }
-      ]
-    },
-    {
-      id: 'corporateVehicleManagement',
-      title: <FormattedMessage id="corporateVehicleManagement" />,
-      type: 'collapse',
-      url: '/utils/util-grid',
-      icon: icons.IconBasket,
-      children: [
-        {
-          id: 'vehicleRegistrationPage',
-          title: <FormattedMessage id="vehicleRegistrationPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'vehicleLogbookPage',
-          title: <FormattedMessage id="vehicleLogbookPage" />,
-          type: 'item',
-          url: ''
         }
       ]
     }
