@@ -85,7 +85,7 @@
 		 		WHERE SLIP_NO=#{slipNo}
 		 	]]>
 	</update>
-	
+
 	<select id="selectRangedSlipList"
 		parameterType="java.util.HashMap"
 		resultType="kr.co.seoulit.account.posting.business.to.SlipBean">
@@ -147,7 +147,7 @@
                APPROVAL_DATE        as approvalDate,
                SLIP_STATUS          as slipStatus
         FROM SLIP
-        WHERE SLIP_STATUS = '승인요청'
+        WHERE SLIP_STATUS = '승인'
         ]]>
 	</select>
 

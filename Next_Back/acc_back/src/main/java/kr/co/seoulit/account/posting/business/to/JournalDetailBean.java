@@ -10,14 +10,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JournalDetailBean extends BaseBean {
-    private String journalDetailNo;
-    private String accountControlName;
-    private String accountControlType;
-    private String description;
-    private String accountControlDescription;
     private String journalNo;
+    private String journalDetailNo;
+    private String accountControlType;
+    private String accountControlName;
+    private String journalDescription;
     private String accountControlCode;
     private String accountCode;
+    private String description;
 
     public String getAccountControlCode() {
 		return accountControlCode;
@@ -52,27 +52,27 @@ public class JournalDetailBean extends BaseBean {
     }
 
     public String getJournalDescription() {
-        return description;
+        return journalDescription;
     }
 
     public void setJournalDescription(String journalDescription) {
-        this.description = journalDescription;
+        this.journalDescription = journalDescription;
     }
 
-    public String getAccountControlDescription() {
-        return accountControlDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAccountControlDescription(String accountControlDescription) {
-        this.accountControlDescription = accountControlDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 	public void setJournalNo(String journalNo) {
 		this.journalNo = journalNo;
 	}
-	
+
 	public String getJournalNo() {
         return journalNo;
     }
-	
+
 }

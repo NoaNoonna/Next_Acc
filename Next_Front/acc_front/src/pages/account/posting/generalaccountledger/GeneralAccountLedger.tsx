@@ -63,9 +63,12 @@ const GeneralAccountLedger = () => {
   let monthFirstDay = year + '-' + month + '-01';
 
   const accountData = useSelector((state: any) => state.base.accountCodeList);
+  console.log("accountData", accountData);
   const accountDetailData = useSelector((state: any) => state.base.accountDetailList);
+  console.log("accountDetailData", accountDetailData);
   const generalAccountLedger = useSelector((state: any) => state.posting.generalAccountLedgerList);
-  console.log(generalAccountLedger);
+  console.log("generalAccountLedger", generalAccountLedger);
+
   const dispatch = useDispatch();
   const [fromDate, setFromDate] = useState(monthFirstDay);
   const [toDate, setToDate] = useState(toDay);

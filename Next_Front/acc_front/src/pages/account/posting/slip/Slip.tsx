@@ -34,58 +34,61 @@ import { SlipColumnType } from '../types/types';
 
 //전표 그리드 세팅
 const slipColumns: SlipColumnType[] = [
-  { width: '90', headerName: '기수일련번호', field: 'accountPeriodNo', key: 'accountPeriodNo', align: 'center' },
-  { width: '180', headerName: '전표일련번호', field: 'slipNo', key: 'slipNo' },
-  { headerName: '작성날짜', field: 'reportingDate', key: 'reportingDate', type: 'date' },
-  { headerName: '작성자코드', field: 'reportingEmpCode', key: 'reportingEmpCode' },
-  {
-    width: '200',
-    headerName: '품의내역',
-    field: 'expenseReport',
-    editable: true,
-    key: 'expenseReport'
-  }, // editable : 편집가능
-  { headerName: '승인자', field: 'approvalEmpCode', key: 'approvalEmpCode' },
-  { headerName: '승인상태', field: 'slipStatus', key: 'slipStatus' }
+  { width: '30', headerName: '', field: '', align: 'center', headerAlign: 'center' },
+  { width: '100', headerName: '기수일련번호', field: 'accountPeriodNo', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '전표일련번호', field: 'slipNo', align: 'center', headerAlign: 'center' },
+  { width: '150', headerName: '작성날짜', field: 'reportingDate', type: 'date', align: 'center', headerAlign: 'center' },
+  { width: '150', headerName: '작성자코드', field: 'reportingEmpCode',editable: true, align: 'center', headerAlign: 'center' },
+  { width: '200', headerName: '품의내역', field: 'expenseReport', editable: true, align: 'center', headerAlign: 'center'}, // editable : 편집가능
+  {  width: '180', headerName: '승인자', field: 'approvalEmpCode', align: 'center', headerAlign: 'center' },
+  {  width: '180', headerName: '승인상태', field: 'slipStatus', align: 'center', headerAlign: 'center' }
 ];
+
 //분개 칼럼
 const indignationColumns: SlipColumnType[] = [
-  { width: '250', headerName: '분개일련번호', field: 'journalNo' },
-  { headerName: '계정코드', field: 'accountCode', editable: true },
-  { headerName: '계정명', field: 'accountName', editable: true },
-  { headerName: '거래처코드', field: 'customerCode', editable: true },
+  { width: '250', headerName: '분개일련번호', field: 'journalNo', align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '계정코드', field: 'accountCode', editable: true, align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '계정명', field: 'accountName', editable: true, align: 'center', headerAlign: 'center' },
+  { width: '180', headerName: '거래처코드', field: 'customerCode', editable: true, align: 'center', headerAlign: 'center' },
   // { headerName: '거래처명', field: 'customerName', hide: true, editable: true },
   {
+    width: '180',
     headerName: '대차구분',
     field: 'balanceDivision',
     editable: true,
     type: 'singleSelect',
-    valueOptions: ['대변', '차변']
+    valueOptions: ['대변', '차변'],
+    align: 'center', headerAlign: 'center'
   },
   {
+    width: '180',
     headerName: '차변',
     field: 'leftDebtorPrice',
-    editable: true
+    editable: true,
+    align: 'center', headerAlign: 'center'
   },
   {
+    width: '180',
     headerName: '대변',
     field: 'rightCreditsPrice',
-    editable: true
+    editable: true,
+    align: 'center', headerAlign: 'center'
   }
 ];
 
 //분개상세칼럼
 const indignationDetailColumns: SlipColumnType[] = [
-  { headerName: '분개번호', field: 'journalDetailNo', width: 250 },
-  { headerName: '계정관리명', field: 'accountControlName', width: 150 },
-  { headerName: '계정관리타입', field: 'accountControlType', width: 150 },
+  { headerName: '분개번호', field: 'journalDetailNo', width: 250, align: 'center', headerAlign: 'center' },
+  { headerName: '계정관리명', field: 'accountControlName', width: 150, align: 'center', headerAlign: 'center' },
+  { headerName: '계정관리타입', field: 'accountControlType', width: 150, align: 'center', headerAlign: 'center' },
   {
     headerName: '상세내용',
     field: 'journalDescription',
     editable: true,
-    width: 250
+    width: 250,
+    align: 'center', headerAlign: 'center'
   },
-  { headerName: '계정코드상세', field: 'accountControlCode', hide: true }
+  { headerName: '계정코드상세', field: 'accountControlCode', hide: true, align: 'center', headerAlign: 'center' }
 ];
 
 function SlipForm() {
@@ -147,8 +150,10 @@ function SlipForm() {
   const slipData = useSelector((state: any) => state.posting.slipFormList);
   const journalData = useSelector((state: any) => state.posting.journalList);
   const journalDetailData = useSelector((state: any) => state.posting.journalDetailList);
+  console.log("journalDetailData??????????", journalDetailData);
   const codeData = useSelector((state: any) => state.base.detailCodeList);
   console.log('코드데이타', codeData);
+  
   const cellRender = (e: any) => {
     if (e.field === 'leftDebtorPrice' || e.field === 'rightCreditsPrice') {
       dispatch({
@@ -288,14 +293,14 @@ function SlipForm() {
         title: '작성을 마무리해 주십시오',
         showConfirmButton: true
       });
-    } else if (selecSlip.slipStatus == '승인완료') {
+    } else if (selecSlip.slipStatus == '승인') {
       return Swal.fire({
         icon: 'info',
         title: '이미 완료된 건입니다',
         showConfirmButton: true
       });
     } else {
-      const approvalRequestData = { slipNo: selecSlip.slipNo, slipStatus: '승인요청' };
+      const approvalRequestData = { slipNo: selecSlip.slipNo, slipStatus: '승인' };
       dispatch(types.approvalSlipRequest(approvalRequestData));
       return Swal.fire({
         icon: 'success',
@@ -596,6 +601,7 @@ function SlipForm() {
                 onRowClick={searchJour}
                 onEditCellPropsChange={inputValue}
                 onCellEditStop={cellRender}
+                style={{ padding:10 }}
               />
               <DeleteCheckDialog open={openDialog} onClose={handleClose} deleteData={deleteData} />
             </Box>
@@ -662,6 +668,7 @@ function SlipForm() {
                 onCellDoubleClick={accountSelec}
                 onEditCellPropsChange={inputValue}
                 onCellEditStop={cellRender}
+                style={{ padding:10, marginLeft: 10 }}
               />
               <AccountFormDialog
                 open={accountSelectDialog}

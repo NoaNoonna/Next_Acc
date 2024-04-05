@@ -32,7 +32,7 @@ public class JournalController {
         return journalList;
     }
 
-    
+
     @GetMapping("/rangedjournallist")
     public ArrayList<JournalBean> findRangedJournalList(@RequestParam("startDate") String fromDate,
                                                          @RequestParam("endDate") String toDate) {
@@ -54,7 +54,7 @@ public class JournalController {
         entity.setJournalNo(journalNo);
         jpaSlipService.removeJournal(entity.getJournalNo());
 }
-   
+
 //    @PostMapping("/modifyJournal")
 //	public void modifyJournal(@RequestBody JSONObject jourData) {
 //		String slipNo = ((JSONObject) jourData.get("jourData")).get("slipNo").toString();
@@ -92,7 +92,7 @@ public class JournalController {
 //        }
 //		businessService.modifyJournal(slipNo, journalBeanList);
 	}
-    
+
     /*이전 modifyJournal
     @GetMapping("modifyJournal")
     public void modifyJournal(@RequestParam String slipNo,
@@ -116,7 +116,7 @@ public class JournalController {
 
         businessService.updateJournalList(journalList);
     }*/
-    
+
     @PutMapping("/updateJournalList")
     public void updateJournalList (@RequestBody JSONObject jourData) {
     	String slipNo = ((JSONObject) jourData.get("jourData")).get("slipNo").toString();
@@ -133,9 +133,9 @@ public class JournalController {
             journalBeanList.add(journalBean);
         }
 		businessService.updateJournal(slipNo, journalBeanList);
-		
+
     }
-    
+
     @GetMapping("/approvalJournalList")
     public ArrayList<JournalBean> findApprovalJournalList(@RequestParam String slipNo) {
 

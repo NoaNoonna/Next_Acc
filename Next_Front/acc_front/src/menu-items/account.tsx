@@ -62,12 +62,6 @@ const account: NavItemType = {
           url: '/account/statement/detailtrialbalance/DetailTrialBalance'
         },
         {
-          id: 'generalAccountLedgerPage',
-          title: <FormattedMessage id="generalAccountLedgerPage" />,
-          type: 'item',
-          url: '/account/posting/generalaccountledger/GeneralAccountLedger'
-        },
-        {
           id: 'cashJournalPage',
           title: <FormattedMessage id="cashJournalPage" />,
           type: 'item',
@@ -137,30 +131,6 @@ const account: NavItemType = {
           type: 'item',
           url: '/account/statement/accounting/Accounting'
         },
-        {
-          id: 'costStatementPage',
-          title: <FormattedMessage id="costStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'retainedEarningsStatementPage',
-          title: <FormattedMessage id="retainedEarningsStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'monthCostStatementPage',
-          title: <FormattedMessage id="monthCostStatementPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'cashFlowStatementPage',
-          title: <FormattedMessage id="cashFlowStatementPage" />,
-          type: 'item',
-          url: ''
-        }
       ]
     },
     {
@@ -201,19 +171,19 @@ const account: NavItemType = {
           id: 'fixedAssetRegistrationPage',
           title: <FormattedMessage id="fixedAssetRegistrationPage" />,
           type: 'item',
-          url: '/account/posting/noncurrentasset/NonCurrentAsset'
+          url: '/account/operate/fixedAsset/FixedAsset'
         },
         {
           id: 'depreciationSchedulePage',
           title: <FormattedMessage id="depreciationSchedulePage" />,
           type: 'item',
-          url: ''
+          url: '/account/operate/depreciation/Depreciation'
         },
         {
           id: 'fixedAssetLedgerPage',
           title: <FormattedMessage id="fixedAssetLedgerPage" />,
           type: 'item',
-          url: ''
+          url: '/account/operate/fixedAssetLedger/FixedAssetLedger'
         }
       ]
     },
@@ -228,52 +198,25 @@ const account: NavItemType = {
           id: 'dailyFundPlanInputFormPage',
           title: <FormattedMessage id="dailyFundPlanInputFormPage" />,
           type: 'item',
-          url: ''
-        },
-        {
-          id: 'fundPlanningCalendarFormPage',
-          title: <FormattedMessage id="fundPlanningCalendarFormPage" />,
-          type: 'item',
-          url: ''
+          url: '/account/operate/funds/dailyFundPlanInput/FundPlanInputTab'
         },
         {
           id: 'noteReceivableSpecificationFormPage',
           title: <FormattedMessage id="noteReceivableSpecificationFormPage" />,
           type: 'item',
-          url: ''
+          url: '/account/operate/funds/noteSpecification/NoteReceivableSpecification'
         },
         {
           id: 'notePayableSpecificationFormPage',
           title: <FormattedMessage id="notePayableSpecificationFormPage" />,
           type: 'item',
-          url: ''
+          url: '/account/operate/funds/noteSpecification/NotePayableSpecification'
         },
         {
           id: 'dailyFundJournalFormPage',
           title: <FormattedMessage id="dailyFundJournalFormPage" />,
           type: 'item',
-          url: ''
-        }
-      ]
-    },
-    {
-      id: 'corporateVehicleManagement',
-      title: <FormattedMessage id="corporateVehicleManagement" />,
-      type: 'collapse',
-      url: '/utils/util-grid',
-      icon: icons.IconBasket,
-      children: [
-        {
-          id: 'vehicleRegistrationPage',
-          title: <FormattedMessage id="vehicleRegistrationPage" />,
-          type: 'item',
-          url: ''
-        },
-        {
-          id: 'vehicleLogbookPage',
-          title: <FormattedMessage id="vehicleLogbookPage" />,
-          type: 'item',
-          url: ''
+          url: '/account/operate/funds/dailyFundJournalStatus/FundJournalTab'
         }
       ]
     }

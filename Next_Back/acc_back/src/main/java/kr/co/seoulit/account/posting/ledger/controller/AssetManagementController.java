@@ -1,26 +1,19 @@
 package kr.co.seoulit.account.posting.ledger.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import kr.co.seoulit.account.operate.system.to.AccountBean;
-import kr.co.seoulit.account.posting.ledger.to.CurrentAssetBean;
+import kr.co.seoulit.account.posting.ledger.to.FixedAssetBean;
+import kr.co.seoulit.account.posting.ledger.to.FixedAssetDetailBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.posting.ledger.service.LedgerService;
-import kr.co.seoulit.account.posting.ledger.service.LedgerServiceImpl;
 import kr.co.seoulit.account.posting.ledger.to.AssetBean;
 import kr.co.seoulit.account.posting.ledger.to.AssetItemBean;
 import kr.co.seoulit.account.posting.ledger.to.DeptBean;
-import kr.co.seoulit.account.sys.common.exception.DataAccessException;
-import net.sf.json.JSONObject;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/posting")
@@ -32,55 +25,56 @@ public class AssetManagementController{
 
 
 	// ================================ 고정자산 추가============================
-	@GetMapping ("/findCurrentAssetList")
-	public HashMap<String , Object> findCurrentAssetList(@RequestParam("accountCode") String accountCode,
-														 @RequestParam("accountName") String accountName
-														 ){
 
-		HashMap<String ,Object> map =new HashMap<>();
-		map.put("findCurrentAssetList",ledgerService.findCurrentAssetList(accountCode, accountName) );
-
-		return map;
-	}
-	//ArrayList<CurrentAssetBean>
-
-	@GetMapping("/CurrentAssetCode")
-	public ArrayList<AccountBean> currentAssetCode(){
-		return ledgerService.currentAssetCode();
-	}
-
-	//자산분류
-	@GetMapping("/assetlist")
+	//고정자산분류
+	@GetMapping("/assetList")
 	public ArrayList<AssetBean> assetList() {
 
         	ArrayList<AssetBean> AssetList = ledgerService.findAssetList();
-
+			System.out.println("AssetList = " + AssetList);
         	return AssetList;
     }
 
-	@GetMapping("/assetDta")
-	public ArrayList<AssetItemBean> findAssetDta (@RequestParam("parentsCode") String parentsCode){
-		ArrayList<AssetItemBean> assetDta = ledgerService.findAssetDta(parentsCode);
-		return assetDta;
+
+	//고정자산 목록
+	@GetMapping ("/findFixedAssetList")
+	public HashMap<String , Object> findFixedAssetList(@RequestParam("accountCode") String accountCode,
+													   @RequestParam("accountName") String accountName
+														 ) {
+
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("findFixedAssetList", ledgerService.findFixedAssetList(accountCode, accountName));
+		System.out.println("accountCode = " + accountCode);
+		System.out.println("accountName = " + accountName);
+		return map;
 	}
 
-	@GetMapping("/assetitemlist") //세부고정자산
-    public ArrayList<AssetItemBean> assetItemList(@RequestParam("parentsCode") String parentsCode) {
-
-        	ArrayList<AssetItemBean> AssetItemList = ledgerService.findAssetItemList(parentsCode);
-
-        	return AssetItemList;
+	//고정자산추가
+	@PostMapping("/addFixedAsset")
+    public void insertFixedAsset(@RequestBody FixedAssetBean fixedAssetBean){
+		System.out.println("fixedAssetBean = " + fixedAssetBean);
+		ledgerService.insertFixedAsset(fixedAssetBean);
     }
 
-	@GetMapping("/deptlist")
-    public ArrayList<DeptBean> deptList() {
+	//감가상각현황 전체조회
+	@GetMapping("/getDepreciationList")
+	public ArrayList<FixedAssetBean> depreciationList(){
+		return ledgerService.depreciationList();
+	}
 
-        	ArrayList<DeptBean> DeptList = ledgerService.findDeptList();
+	//감가상각현황 조건조회
 
-        	return DeptList;
-    }
+	@GetMapping("/selectedDepreciationList")
+	public ArrayList<FixedAssetBean> selectedDepreciationList(@RequestParam("accountCode") String accountCode){
+		return ledgerService.selectedDepreciationList(accountCode);
+	}
 
-    @PostMapping("/assetstorage")
+	@GetMapping("/getFixedAssetLedgerList")
+	public ArrayList<FixedAssetBean> fixedAssetLedgerList(){
+		return ledgerService.fixedAssetLedgerList();
+	}
+
+	@PostMapping("/assetstorage")
     public void assetStorage(@RequestParam(value="previousAssetItemCode", required=false) String previousAssetItemCode,
     								 @RequestParam(value="assetItemCode", required=false) String assetItemCode,
     								 @RequestParam(value="assetItemName", required=false) String assetItemName,
@@ -107,6 +101,36 @@ public class AssetManagementController{
         	ledgerService.assetStorage(map);
 
     }
+
+
+	@GetMapping("/CurrentAssetCode")
+	public ArrayList<AccountBean> currentAssetCode(){
+		return ledgerService.currentAssetCode();
+	}
+
+	@GetMapping("/assetDta")
+	public ArrayList<AssetItemBean> findAssetDta (@RequestParam("parentsCode") String parentsCode){
+		ArrayList<AssetItemBean> assetDta = ledgerService.findAssetDta(parentsCode);
+		return assetDta;
+	}
+
+	@GetMapping("/assetitemlist") //세부고정자산
+    public ArrayList<AssetItemBean> assetItemList(@RequestParam("parentsCode") String parentsCode) {
+
+        	ArrayList<AssetItemBean> AssetItemList = ledgerService.findAssetItemList(parentsCode);
+
+        	return AssetItemList;
+    }
+
+	@GetMapping("/deptlist")
+    public ArrayList<DeptBean> deptList() {
+
+        	ArrayList<DeptBean> DeptList = ledgerService.findDeptList();
+
+        	return DeptList;
+    }
+
+
 
     @GetMapping("/assetremoval")
     public void assetRemove(@RequestParam String assetItemCode) {

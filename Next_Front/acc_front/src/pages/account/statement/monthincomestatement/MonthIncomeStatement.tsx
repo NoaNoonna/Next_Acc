@@ -10,16 +10,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { DataGrid } from '@mui/x-data-grid';
 import accountApi from 'api/accountApi';
 
-/** 
- * 추가사항
- * 1. DataGrid 에서는 valueGetter 사용 
- *  - ex) valueGetter: (params) => {
-            return `${params.row.firstName || ''} ${params.row.lastName || ''}`;
- *  
-    2. rowStyle 주는 것도 DataGridPro에서 가능한듯
-
-    3. 데이터 출력 완료  - 출력시 ₩NaN으로 출력됨. 수정 필요
- */
 
 const MonthIncomeStatement = () => {
 
@@ -52,10 +42,15 @@ const MonthIncomeStatement = () => {
 
   const wonPrice = {
     type: 'number',
-    valueGetter: (value: any) => currencyFormatter.format(value)
+    valueFormatter: (params) => {
+      if (params.value === null || isNaN(params.value)) {
+        return ''; // Handle null or NaN values gracefully
+      }
+      return currencyFormatter.format(params.value);
+    }
   };
 
-  const MonthIncomeStatementColumns: any = [
+  const MonthIncomeStatementColumns = [
     {
       headerName: '연도',
       field: 'year',

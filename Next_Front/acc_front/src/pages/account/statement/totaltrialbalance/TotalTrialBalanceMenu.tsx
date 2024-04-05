@@ -28,10 +28,10 @@ const TotalTrialBalanceMenu = () => {
     const periodListData = () => {
         setOpen(true);
         axios.get('http://localhost:9103/settlement/periodNoList')
-            .then(res => {
-                console.log(res.data);
+            .then((res:any) => {
+                console.log("res.data???", res.data);
                 setList(res.data.periodNoList);
-                console.log(res.data.periodNoList);
+                console.log("res.data.periodNoList????", res.data.periodNoList);
             }
             )
     };
@@ -45,11 +45,11 @@ const TotalTrialBalanceMenu = () => {
             }
         )
             .then((res) => {
-                console.log(res.data.totaltrialList.totalTrialBalance);
-                setTotaltrialListData(res.data.totaltrialList.totalTrialBalance);
+                // console.log(res.data.totaltrialList.totalTrialBalance);
+                console.log("res.data", res.data);
+                // setTotaltrialListData(res.data.totaltrialList.totalTrialBalance);
             }
             )
-        console.log(totaltrialListData);
     };
 
     const earlyStatement = () => { // 결산 버튼

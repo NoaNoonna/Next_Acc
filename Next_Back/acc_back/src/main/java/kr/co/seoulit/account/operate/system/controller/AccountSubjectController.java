@@ -29,6 +29,25 @@ public class AccountSubjectController {
 	ModelAndView mav = null;
 	ModelMap map = new ModelMap();
 
+	//계정코드 전체조회
+	@GetMapping("/accountCodes")
+	public HashMap<String, Object> getAccountCodeList(){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("accountCodeList", systemService.getAccountCodeList());
+		return map;
+	}
+
+	//계정코드 조건조회
+	@GetMapping("/accountCodes/{accountCode}")
+	public HashMap<String, Object> getAccount(@PathVariable("accountCode") String accountCode,
+											  @RequestParam String accountName){
+		System.out.println("accountCode = " + accountCode);
+		System.out.println("accountName = " + accountName);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("accountCodeList", systemService.getAccount(accountCode, accountName));
+		return map;
+	}
+
 	@GetMapping("/account")
 	public ArrayList<AccountBean> findAccount(@RequestParam String accountCode, @RequestParam String accountName) {
 

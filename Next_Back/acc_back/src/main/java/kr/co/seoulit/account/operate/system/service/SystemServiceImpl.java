@@ -17,7 +17,7 @@ import kr.co.seoulit.account.operate.system.mapper.CustomerMapper;
 @Service
 @Transactional
 public class SystemServiceImpl implements SystemService{
-	
+
 	@Autowired
     private AccountSubjectMapper accountDAO;
 	@Autowired
@@ -25,6 +25,20 @@ public class SystemServiceImpl implements SystemService{
 	@Autowired
     private CustomerMapper customerDAO;
 
+
+	@Override
+	public List<AccountCodeBean> getAccountCodeList(){
+		return accountDAO.getAccountCodeList();
+	}
+
+	@Override
+	public List<AccountBean> getAccount(String accountCode, String accountName){
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("accountCode", accountCode);
+		param.put("accountName", accountName);
+
+		return accountDAO.getAccount(param);
+	}
 
 	@Override
 	public void registerDetailaccountList(AccountBean accountBean) {
@@ -54,7 +68,7 @@ public class SystemServiceImpl implements SystemService{
 
         return accountList;
     }
-    
+
     @Override
 	public ArrayList<AccountBean> findJournalAccountList(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -126,7 +140,7 @@ public class SystemServiceImpl implements SystemService{
 
         return accountPeriodList;
 	}
-	
+
 	@Override
     public ArrayList<AuthorityEmpBean> findAuthorityEmp(String deptCode) {
 
@@ -158,12 +172,12 @@ public class SystemServiceImpl implements SystemService{
 	@Override
 	public void addAuthorityGroup(String addAuthority,String nextGroupCode) {
 
-	        	authorityGroupDAO.insertAuthorityGroup(addAuthority,nextGroupCode); 
+	        	authorityGroupDAO.insertAuthorityGroup(addAuthority,nextGroupCode);
 
 	}
 	@Override
 	public ArrayList<AuthorityEmpBean> findAuthorityGroupCode() {
-		
+
 
         	ArrayList<AuthorityEmpBean> findAuthorityGroupCode= null;
         	findAuthorityGroupCode = authorityGroupDAO.selectAuthorityGroupCode();
@@ -172,14 +186,14 @@ public class SystemServiceImpl implements SystemService{
     }
 	@Override
 	public void removeAuthorityGroup(String groupCode) {
-	
-	        	authorityGroupDAO.deleteAuthorityGroup(groupCode);   
-	        	authorityGroupDAO.deleteAuthorityMenu(groupCode); 
+
+	        	authorityGroupDAO.deleteAuthorityGroup(groupCode);
+	        	authorityGroupDAO.deleteAuthorityMenu(groupCode);
 
 	}
 	@Override
 	public ArrayList<AuthorityMenuBean> findAuthorityMenu(String menuName){
-		
+
 			HashMap<String, String> map = new HashMap<>();
 			map.put("menuName", menuName);
         	ArrayList<AuthorityMenuBean> authorityMenu= null;
@@ -195,7 +209,7 @@ public class SystemServiceImpl implements SystemService{
 	            }
 
 	}
-	
+
 	@Override
 	public void registerWorkplace(WorkplaceBean workplaceBean) {
 
@@ -205,7 +219,7 @@ public class SystemServiceImpl implements SystemService{
 			customerDAO.insertWorkplace(workplaceBean);
 			}
 	}
-	
+
 	@Override
 	public void removeWorkplace(ArrayList<String> getCodes) {
 
@@ -214,50 +228,50 @@ public class SystemServiceImpl implements SystemService{
         		System.out.println("사업장삭제완료:"+code);
 			}
 	}
-	
+
 	@Override
 	public void modifyApprovalStatus(ArrayList<String> getCodes,String status) {
-		
+
 				for(String code : getCodes) {
 					customerDAO.updateWorkplaceAccount(code, status);
-        		
+
 		}
 	}
-	
+
 	@Override
 	public WorkplaceBean findWorkplace(String workplaceCode) {
-		
+
 			WorkplaceBean workplaceBean =null;
 			workplaceBean = customerDAO.selectWorkplace(workplaceCode);
-		
+
 		return workplaceBean;
 	}
-	
-	
+
+
 	@Override
 	public ArrayList<WorkplaceBean> findAllWorkplaceList () {
-	
+
 			ArrayList<WorkplaceBean> allworkplaceList = null;
 			allworkplaceList = customerDAO.selectAllWorkplaceList();
-		
+
 		return allworkplaceList;
 	}
-	
+
 	@Override
 	public ArrayList<BusinessBean> findBusinessList() {
-		
+
 			ArrayList<BusinessBean> businessList = null;
 			businessList = customerDAO.selectBusinessList();
-		
+
 		return businessList;
 	}
-	
+
 	@Override
 	public ArrayList<DetailBusinessBean> findDetailBusiness(String businessCode) {
-		
+
 			ArrayList<DetailBusinessBean> detailBusinessList = null;
 			detailBusinessList = customerDAO.selectDetailBusinessList(businessCode);
-		
+
 		return detailBusinessList;
 	}
 
